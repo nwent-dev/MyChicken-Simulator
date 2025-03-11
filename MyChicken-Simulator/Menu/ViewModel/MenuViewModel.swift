@@ -7,8 +7,8 @@ class MenuViewModel: ObservableObject {
     @Published var tirednessProgress: CGFloat = 0.26 // min 0.26 max 1
     
     @Published var isSleeping: Bool = false
-    @Published var sleepMinutes: String = "00" // ✅ Двухзначный формат
-    @Published var sleepSeconds: String = "00" // ✅ Двухзначный формат
+    @Published var sleepMinutes: String = "00"
+    @Published var sleepSeconds: String = "00"
 
     @Published var isFeedMenuOpen: Bool = false
     @Published var selectedFood: Food?
@@ -39,7 +39,7 @@ class MenuViewModel: ObservableObject {
 
         if sleepTimer == nil {
             isSleeping = false
-            UserDefaults.standard.set(false, forKey: "isSleeping") // Сохраняем в память
+            UserDefaults.standard.set(false, forKey: "isSleeping") // save in userdefaults
         }
     }
 
@@ -141,7 +141,6 @@ class MenuViewModel: ObservableObject {
                 isSleeping = true
                 startSleepTimer()
                 
-                // ✅ **Вычисляем сколько усталости нужно отнять**
                 let elapsedTime = sleepEndTime!.timeIntervalSince(savedEndTime)
                 let tirednessToRemove = elapsedTime / 15 * 0.003333333333
                 self.tirednessProgress = max(self.tirednessProgress - tirednessToRemove, 0)
@@ -171,17 +170,17 @@ class MenuViewModel: ObservableObject {
     private func updateSleepTime(_ timeInterval: TimeInterval) {
         let minutes = Int(timeInterval) / 60
         let seconds = Int(timeInterval) % 60
-        sleepMinutes = String(format: "%02d", minutes) // ✅ Формат "00"
-        sleepSeconds = String(format: "%02d", seconds) // ✅ Формат "00"
+        sleepMinutes = String(format: "%02d", minutes) // format "00"
+        sleepSeconds = String(format: "%02d", seconds) // format "00"
     }
     
     func stopSleepTimer() {
         sleepTimer?.invalidate()
         sleepEndTime = nil
-        isSleeping = false // ✅ Явно сбрасываем перед сохранением
+        isSleeping = false
         sleepMinutes = "00"
         sleepSeconds = "00"
-        UserDefaults.standard.set(false, forKey: "isSleeping") // ✅ Сохраняем сброс сна
+        UserDefaults.standard.set(false, forKey: "isSleeping")
         UserDefaults.standard.removeObject(forKey: "sleepEndTime")
     }
 
@@ -221,11 +220,10 @@ class MenuViewModel: ObservableObject {
             moodProgress = savedData["moodProgress"] as? CGFloat ?? 0.26
             tirednessProgress = savedData["tirednessProgress"] as? CGFloat ?? 0.26
             
-            // ✅ Загружаем значение isSleeping корректно
             if let savedSleeping = savedData["isSleeping"] as? Bool {
                 isSleeping = savedSleeping
             } else {
-                isSleeping = false // ✅ Если данных нет, сбрасываем
+                isSleeping = false
             }
         }
     }

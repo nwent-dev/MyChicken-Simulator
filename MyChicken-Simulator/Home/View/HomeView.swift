@@ -4,18 +4,19 @@ struct HomeView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
     @State private var selectedTab: Int = 1
     @StateObject private var menuVM = MenuViewModel()
+    @StateObject private var shopVM = ShopViewModel()
     var body: some View {
         if hasSeenOnboarding {
             OnboardingView()
         } else {
             TabView(selection: $selectedTab) {
-                MenuView(menuVM: menuVM)
+                MenuView(menuVM: menuVM, shopVM: shopVM)
                     .tag(1)
                 
                 GameView(menuVM: menuVM)
                     .tag(2)
                 
-                ShopView()
+                ShopView(shopVM: shopVM)
                     .tag(3)
                 
                 SettingsView()

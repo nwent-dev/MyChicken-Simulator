@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MenuView: View {
     @ObservedObject var menuVM: MenuViewModel
+    @ObservedObject var shopVM: ShopViewModel
     @ObservedObject var moneyManager = MoneyManager.shared
     var body: some View {
         ZStack {
@@ -64,7 +65,7 @@ struct MenuView: View {
                         Spacer()
                     }
                     
-                    Image("chicken")
+                    Image(shopVM.chickenWithCloth)
                         .resizable()
                         .scaledToFit()
                         .frame(width: geometry.size.width * 0.4512820513)
@@ -133,5 +134,5 @@ struct MenuView: View {
 
 #Preview {
     @StateObject var vm = MenuViewModel()
-    MenuView(menuVM: vm)
+    MenuView(menuVM: vm, shopVM: ShopViewModel())
 }
