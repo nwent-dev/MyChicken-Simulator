@@ -30,6 +30,7 @@ struct CatchTheGrainStartView: View {
                         
                         HStack {
                             Text("\(moneyManager.money)")
+                                .foregroundStyle(.black)
                                 .font(.custom("Gilroy-Heavy", size: width * 0.09))
                             Image("egg")
                                 .resizable()

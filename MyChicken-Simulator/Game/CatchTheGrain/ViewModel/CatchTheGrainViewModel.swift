@@ -2,17 +2,17 @@ import Foundation
 
 class CatchTheGrainViewModel: ObservableObject {
     @Published var score: Int = 0 // current score
-    @Published var levelTask: Int = 30 // Количество очков для победы
-    @Published var isGamePaused: Bool = false // Флаг паузы
-    @Published var isGameOver: Bool = false // Флаг окончания игры
-    @Published var isGameWon: Bool = false // Флаг победы
-    @Published var timeMinutes: String = "00" // Минуты (всегда 2 знака)
-    @Published var timeSeconds: String = "00" // Секунды (всегда 2 знака)
+    @Published var levelTask: Int = 30 // score count for won
+    @Published var isGamePaused: Bool = false // pause flag
+    @Published var isGameOver: Bool = false // game over flag
+    @Published var isGameWon: Bool = false // win flag
+    @Published var timeMinutes: String = "00" // minutes
+    @Published var timeSeconds: String = "00" // seconds
     
-    private var gameTimer: Timer? // Таймер игры
-    private let gameDuration: TimeInterval = 60 // 60 секунд на уровень
-    private var remainingTime: TimeInterval = 60 // Оставшееся время
-    private var endTime: Date? // Время окончания игры
+    private var gameTimer: Timer? // game timer
+    private let gameDuration: TimeInterval = 60
+    private var remainingTime: TimeInterval = 60
+    private var endTime: Date?
     
     init() {
         restartGame()
@@ -85,7 +85,7 @@ class CatchTheGrainViewModel: ObservableObject {
         gameTimer?.invalidate()
         
         let earned = score / (levelTask / 10)
-        MoneyManager.shared.addMoney(howMuch: earned) // 💰 Добавляем деньги сразу при победе
+        MoneyManager.shared.addMoney(howMuch: earned) 
     }
     
     // lose

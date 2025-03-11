@@ -20,8 +20,8 @@ struct CatchTheGrainView: View {
                         scene.setViewModel(gameVM)
                     }
                     .onDisappear {
-                        scene.removeAllChildren() // Удаляет всех детей (игрока, объекты)
-                        scene.removeAllActions() // Останавливает все анимации
+                        scene.removeAllChildren() // remove all childs
+                        scene.removeAllActions() // stoping all animations
                     }
                     .gesture(
                         DragGesture()
@@ -84,8 +84,10 @@ struct CatchTheGrainView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text("level task")
+                    .foregroundStyle(.black)
                     .font(.custom("Gilroy-Regular", size: width*0.03))
                 Text("\(gameVM.levelTask - gameVM.score)")
+                    .foregroundStyle(.black)
                     .font(.custom("Gilroy-Heavy", size: width*0.05))
             }
             Spacer()
@@ -125,6 +127,7 @@ struct CatchTheGrainView: View {
             Text(":")
                 .foregroundStyle(.white)
             Text("\(gameVM.timeSeconds)")
+                .foregroundStyle(.black)
                 .font(.custom("Gilroy-Heavy", size: width*0.04))
                 .padding(10)
                 .background {

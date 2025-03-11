@@ -17,9 +17,11 @@ class OnboardingViewModel: ObservableObject {
         
     ]
     
-    func nextText() {
+    func nextText(hasSeenOnboarding: inout Bool) {
         if currentTextIndex < titles.count - 1 {
             currentTextIndex += 1
+        } else {
+            hasSeenOnboarding = true
         }
     }
 }

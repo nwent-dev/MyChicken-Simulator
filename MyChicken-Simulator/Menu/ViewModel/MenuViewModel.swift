@@ -126,7 +126,7 @@ class MenuViewModel: ObservableObject {
             }
             
             if Int(remainingTime) % 15 == 0 {
-                self.tirednessProgress = max(self.tirednessProgress - 0.003333333333, 0)
+                self.tirednessProgress = max(self.tirednessProgress - 0.003333333333, 0.26)
                 self.saveData()
             }
         }

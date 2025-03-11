@@ -1,14 +1,12 @@
 import SwiftUI
 import SpriteKit
 
-/// ⚡ Класс сцены игры
 class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
     private var player: SKSpriteNode!
     private var background: SKSpriteNode!
-    private var gameViewModel: CatchTheGrainViewModel? // Ссылка на ViewModel
-    private var spawnAction: SKAction? // Действие появления предметов
+    private var gameViewModel: CatchTheGrainViewModel?
+    private var spawnAction: SKAction?
     
-    /// 🎮 Устанавливаем ViewModel (вызываем при создании сцены)
     func setViewModel(_ viewModel: CatchTheGrainViewModel) {
         self.gameViewModel = viewModel
     }
@@ -16,17 +14,14 @@ class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         
-        // 💡 Устанавливаем прозрачный фон
         view.backgroundColor = .clear
         
-        // 🔹 Добавляем фон (картинку `bg2.png`)
         background = SKSpriteNode(imageNamed: "bg2.png")
         background.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        background.size = size // Растягиваем на весь экран
-        background.zPosition = -1 // Фон должен быть сзади всех объектов
+        background.size = size
+        background.zPosition = -1
         addChild(background)
 
-        // 🔹 Добавляем игрока (курицу)
         player = SKSpriteNode(imageNamed: "chicken")
         player.position = CGPoint(x: size.width / 2, y: size.height * 0.1)
         player.setScale(0.33)
@@ -37,7 +32,6 @@ class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.collisionBitMask = 0
         addChild(player)
         
-        // 🔹 Запускаем таймер появления объектов
         spawnAction = SKAction.sequence([
             SKAction.run { [weak self] in self?.spawnFallingItem() },
             SKAction.wait(forDuration: 1.0)
@@ -45,9 +39,8 @@ class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(spawnAction!), withKey: "spawnItems")
     }
     
-    /// 🏆 Добавляем падающий объект
     private func spawnFallingItem() {
-        guard !(gameViewModel?.isGamePaused ?? false) else { return } // Остановить спавн во время паузы
+        guard !(gameViewModel?.isGamePaused ?? false) else { return }
         
         let item = SKSpriteNode(imageNamed: "dropItem")
         let randomX = CGFloat.random(in: 50...(size.width - 50))
@@ -64,9 +57,8 @@ class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
         addChild(item)
     }
     
-    /// 🎯 Обрабатываем коллизию (только падающие предметы исчезают)
     func didBegin(_ contact: SKPhysicsContact) {
-        guard !(gameViewModel?.isGamePaused ?? false) else { return } // Останавливаем обработку
+        guard !(gameViewModel?.isGamePaused ?? false) else { return }
         
         var fallingItem: SKSpriteNode?
         
@@ -82,12 +74,10 @@ class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    /// 🎯 Увеличиваем счет и передаём в `CatchTheGrainViewModel`
     private func increaseScore() {
-        gameViewModel?.increaseScore() // Теперь обновляем ViewModel
+        gameViewModel?.increaseScore()
     }
     
-    /// 🎮 Двигаем игрока (по горизонтали), но не во время паузы
     func movePlayer(to position: CGPoint) {
         guard !(gameViewModel?.isGamePaused ?? false) else { return }
         
@@ -95,23 +85,19 @@ class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
         player.position.x = newX
     }
     
-    /// ⏸ Пауза игры (останавливает спавн и замораживает объекты)
     func pauseGame() {
         isPaused = true
-        removeAction(forKey: "spawnItems") // Останавливаем спавн предметов
+        removeAction(forKey: "spawnItems")
         
-        // Останавливаем все падающие предметы
         children.forEach { node in
             node.isPaused = true
         }
     }
     
-    /// ▶️ Возобновление игры
     func resumeGame() {
         isPaused = false
-        run(SKAction.repeatForever(spawnAction!), withKey: "spawnItems") // Возобновляем спавн предметов
+        run(SKAction.repeatForever(spawnAction!), withKey: "spawnItems") 
         
-        // Размораживаем все падающие предметы
         children.forEach { node in
             node.isPaused = false
         }

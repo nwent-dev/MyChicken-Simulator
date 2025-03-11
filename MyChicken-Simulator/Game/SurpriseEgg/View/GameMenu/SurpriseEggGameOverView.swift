@@ -27,6 +27,7 @@ struct SurpriseEggGameOverView: View {
                     )
                     
                     Text("YOU HAVE EARNED")
+                        .foregroundStyle(.black)
                         .font(.custom("Gilroy-Regular", size: width*0.05))
                     
                     HStack {

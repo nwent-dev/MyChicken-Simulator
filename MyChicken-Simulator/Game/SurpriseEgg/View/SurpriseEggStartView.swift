@@ -31,6 +31,7 @@ struct SurpriseEggStartView: View {
                         
                         HStack {
                             Text("\(moneyManager.money)")
+                                .foregroundStyle(.black)
                                 .font(.custom("Gilroy-Heavy", size: width * 0.09))
                             Image("egg")
                                 .resizable()
@@ -55,6 +56,7 @@ struct SurpriseEggStartView: View {
                                 .frame(width: width * 0.3)
                             
                             Text("\(gameVM.life)/5")
+                                .foregroundStyle(.black)
                                 .font(.custom("Gilroy-Heavy", size: width * 0.06))
                                 .padding(.leading)
                         }
@@ -77,7 +79,7 @@ struct SurpriseEggStartView: View {
                     Spacer()
                     
                     NavigationLink {
-                        CatchTheGrainIntroduceView(menuVM: menuVM)
+                        SurpriseEggGoalView(menuVM: menuVM, gameVM: gameVM)
                     } label: {
                         Image("playBtn")
                             .resizable()

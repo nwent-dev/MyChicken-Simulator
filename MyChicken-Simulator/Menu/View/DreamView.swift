@@ -27,6 +27,7 @@ struct DreamView: View {
                     
                     HStack {
                         Text("\(menuVM.sleepMinutes)")
+                            .foregroundStyle(.black)
                             .padding()
                             .padding(.horizontal)
                             .background {
@@ -39,6 +40,7 @@ struct DreamView: View {
                         Text(":")
                             .foregroundStyle(.white)
                         Text("\(menuVM.sleepSeconds)")
+                            .foregroundStyle(.black)
                             .padding()
                             .padding(.horizontal)
                             .background {

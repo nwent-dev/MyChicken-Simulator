@@ -13,7 +13,6 @@ struct ShadowTextView: View {
 
     var body: some View {
         ZStack {
-            // Обводка (Создаем несколько слоев текста для эффекта stroke)
             Text(text)
                 .font(.custom(fontName, size: fontSize))
                 .foregroundColor(outlineColor)
@@ -34,7 +33,7 @@ struct ShadowTextView: View {
                 .foregroundColor(outlineColor)
                 .offset(x: outlineWidth, y: outlineWidth)
 
-            // Основной текст
+            // main text 
             Text(text)
                 .font(
                     .custom(fontName, size: fontSize, relativeTo: .largeTitle)

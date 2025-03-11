@@ -48,6 +48,7 @@ struct CatchTheGrainIntroduceView: View {
                         .padding(.vertical)
                         
                         Text("Catch as many grains falling from above as possible within a limited time to earn golden eggs.")
+                            .foregroundStyle(.black)
                             .font(.custom("Gilroy-Regular", size: width * 0.045))
                             .frame(width: width * 0.75)
                     }

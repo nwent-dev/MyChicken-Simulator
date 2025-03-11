@@ -18,11 +18,11 @@ struct MenuView: View {
                             fontName: "Gilroy-Heavy",
                             fontSize: geometry.size.width * 0.13,
                             textColor: Color(red: 0.722, green: 0.055, blue: 0.306),
-                            outlineColor: .black, // Цвет обводки
-                            outlineWidth: 1, // Толщина обводки
-                            shadowColor: .black, // Цвет тени
-                            shadowOffset: CGSize(width: 1.97, height: 1.97), // Смещение тени
-                            shadowOpacity: 1 // Прозрачность тени
+                            outlineColor: .black,
+                            outlineWidth: 1,
+                            shadowColor: .black,
+                            shadowOffset: CGSize(width: 1.97, height: 1.97),
+                            shadowOpacity: 1
                         )
                         Spacer()
                         ZStack {
@@ -33,6 +33,7 @@ struct MenuView: View {
                             
                             HStack {
                                 Text("\(moneyManager.money)")
+                                    .foregroundStyle(.black)
                                     .font(.custom("Gilroy-Heavy", size: 35))
                                 
                                 Image("egg")

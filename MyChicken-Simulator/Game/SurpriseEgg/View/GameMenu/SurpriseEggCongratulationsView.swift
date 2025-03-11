@@ -36,12 +36,14 @@ struct SurpriseEggCongratulationsView: View {
                 )
                 
                 Text("You guessed which basket the golden egg was hidden under!")
+                    .foregroundStyle(.black)
                     .font(.custom("Gilroy-Regular", size: width*0.04))
                     .multilineTextAlignment(.center)
                     .padding(.vertical, 5)
                 
                 HStack {
                     Text("+1")
+                        .foregroundStyle(.black)
                         .font(.custom("Gilroy-Heavy", size: width * 0.11))
                     Image("egg")
                         .resizable()

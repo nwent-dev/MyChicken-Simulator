@@ -7,12 +7,10 @@ struct ProgressOverlayView: View {
 
     var body: some View {
         ZStack {
-            // Основное изображение (фон)
             Image(image)
                 .resizable()
                 .scaledToFit()
             
-            // Прогресс-бар поверх, без лишних отступов
             Image("status")
                 .resizable()
                 .scaledToFit()
@@ -29,10 +27,6 @@ struct ProgressOverlayView: View {
                             .scaledToFit()
                     )
                 )
-        }
-        .onTapGesture {
-            // Клик для увеличения прогресса
-            progress = progress < 1.0 ? progress + 0.1 : 0.0
         }
     }
 }

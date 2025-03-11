@@ -2,6 +2,7 @@ import SwiftUI
 
 struct OnboardingView: View {
     @ObservedObject var onboardingVM = OnboardingViewModel()
+    @Binding var hasSeenOnboarding: Bool
     
     var body: some View {
         ZStack {
@@ -16,7 +17,7 @@ struct OnboardingView: View {
                         
                         // Skip button
                         Button {
-                            // skip action
+                            hasSeenOnboarding = true
                         } label: {
                             Image("skipBtn")
                                 .resizable()
@@ -39,11 +40,11 @@ struct OnboardingView: View {
                             fontName: "Gilroy-Heavy",
                             fontSize: geometry.size.width * 0.1,
                             textColor: Color(red: 0.722, green: 0.055, blue: 0.306),
-                            outlineColor: .black, // Цвет обводки
-                            outlineWidth: 1, // Толщина обводки
-                            shadowColor: .black, // Цвет тени
-                            shadowOffset: CGSize(width: 1.97, height: 1.97), // Смещение тени
-                            shadowOpacity: 1 // Прозрачность тени
+                            outlineColor: .black,
+                            outlineWidth: 1,
+                            shadowColor: .black,
+                            shadowOffset: CGSize(width: 1.97, height: 1.97),
+                            shadowOpacity: 1 
                         )
                         .padding()
                         .fixedSize(horizontal: false, vertical: true)
@@ -53,6 +54,7 @@ struct OnboardingView: View {
                             onboardingVM
                                 .texts[onboardingVM.currentTextIndex]
                         )
+                            .foregroundStyle(.black)
                             .font(
                                 .custom(
                                     "Gilroy-Regular",
@@ -78,7 +80,8 @@ struct OnboardingView: View {
                     
                     // Next button
                     Button {
-                        onboardingVM.nextText()
+                        onboardingVM
+                            .nextText(hasSeenOnboarding: &hasSeenOnboarding)
                     } label: {
                         Image("nextBtn")
                             .resizable()
@@ -93,5 +96,5 @@ struct OnboardingView: View {
 }
 
 #Preview {
-    OnboardingView()
+    OnboardingView(hasSeenOnboarding: .constant(false))
 }

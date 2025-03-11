@@ -5,9 +5,10 @@ struct HomeView: View {
     @State private var selectedTab: Int = 1
     @StateObject private var menuVM = MenuViewModel()
     @StateObject private var shopVM = ShopViewModel()
+    @StateObject private var settingsVM = SettingsViewModel()
     var body: some View {
-        if hasSeenOnboarding {
-            OnboardingView()
+        if !hasSeenOnboarding {
+            OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
         } else {
             TabView(selection: $selectedTab) {
                 MenuView(menuVM: menuVM, shopVM: shopVM)
@@ -19,7 +20,7 @@ struct HomeView: View {
                 ShopView(shopVM: shopVM)
                     .tag(3)
                 
-                SettingsView()
+                SettingsView(settingsVM: settingsVM)
                     .tag(4)
             }
             .overlay(alignment: .bottom) {

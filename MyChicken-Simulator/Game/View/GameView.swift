@@ -30,6 +30,7 @@ struct GameView: View {
                         
                         HStack {
                             Text("\(moneyManager.money)")
+                                .foregroundStyle(.black)
                                 .font(.custom("Gilroy-Heavy", size: width * 0.09))
                             Image("egg")
                                 .resizable()
@@ -58,7 +59,7 @@ struct GameView: View {
                     .disabled(!menuVM.mayPlayGame())
                     
                     NavigationLink {
-                        
+                        SurpriseEggStartView(menuVM: menuVM)
                     } label: {
                         Image("supriseEggBtn")
                             .resizable()

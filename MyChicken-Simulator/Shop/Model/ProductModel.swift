@@ -1,4 +1,7 @@
-struct Product: Hashable, Encodable, Decodable {
+import Foundation
+
+struct Product: Identifiable, Hashable, Codable {
+    var id = UUID()
     var image: String
     var price: Int
     var isBuyed: Bool
