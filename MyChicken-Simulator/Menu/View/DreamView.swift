@@ -8,7 +8,7 @@ struct DreamView: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.2)
+            Color.black.opacity(0.5)
                 .ignoresSafeArea()
             
             if menuVM.isSleeping {

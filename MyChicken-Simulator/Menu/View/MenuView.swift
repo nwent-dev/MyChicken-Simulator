@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct MenuView: View {
-    @StateObject var menuVM = MenuViewModel()
-    
+    @ObservedObject var menuVM: MenuViewModel
+    @ObservedObject var moneyManager = MoneyManager.shared
     var body: some View {
         ZStack {
             GeometryReader { geometry in
@@ -31,7 +31,7 @@ struct MenuView: View {
                                 .frame(width: geometry.size.width * 0.2717948718)
                             
                             HStack {
-                                Text("\(MoneyManager.shared.money)")
+                                Text("\(moneyManager.money)")
                                     .font(.custom("Gilroy-Heavy", size: 35))
                                 
                                 Image("egg")
@@ -132,5 +132,6 @@ struct MenuView: View {
 
 
 #Preview {
-    MenuView()
+    @StateObject var vm = MenuViewModel()
+    MenuView(menuVM: vm)
 }

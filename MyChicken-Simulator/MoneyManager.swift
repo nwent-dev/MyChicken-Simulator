@@ -10,6 +10,10 @@ class MoneyManager: ObservableObject {
         }
     }
     
+    func getMoney() -> Int {
+        return money
+    }
+    
     private init() {
         loadMoney()
     }

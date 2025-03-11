@@ -1,9 +1,10 @@
 import SwiftUI
 
-struct CatchTheGrainStartView: View {
+struct SurpriseEggStartView: View {
+    @Environment(\.dismiss) var dismiss
+    @StateObject var gameVM = SurpriseEggViewModel()
     @ObservedObject var menuVM: MenuViewModel
     @ObservedObject var moneyManager = MoneyManager.shared
-    @Environment(\.dismiss) var dismiss
     @State private var width = UIScreen.main.bounds.width
     @State private var height = UIScreen.main.bounds.height
     
@@ -46,8 +47,23 @@ struct CatchTheGrainStartView: View {
                         }
                     }
                     
+                    HStack {
+                        ZStack {
+                            Image("lifesBg")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: width * 0.3)
+                            
+                            Text("\(gameVM.life)/5")
+                                .font(.custom("Gilroy-Heavy", size: width * 0.06))
+                                .padding(.leading)
+                        }
+                        
+                        Spacer()
+                    }
+                    
                     ShadowTextView(
-                        text: "CATCH THE GRAIN",
+                        text: "SURPRISE EGG",
                         fontName: "Gilroy-Heavy",
                         fontSize: width * 0.18,
                         textColor: Color(red: 0.722, green: 0.055, blue: 0.306),
@@ -80,6 +96,6 @@ struct CatchTheGrainStartView: View {
 }
 
 #Preview {
-    @StateObject var vm = MenuViewModel()
-    CatchTheGrainStartView(menuVM: vm)
+    @StateObject var menuVM = MenuViewModel()
+    SurpriseEggStartView(menuVM: menuVM)
 }

@@ -3,16 +3,16 @@ import SwiftUI
 struct HomeView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
     @State private var selectedTab: Int = 1
-    
+    @StateObject private var menuVM = MenuViewModel()
     var body: some View {
         if hasSeenOnboarding {
             OnboardingView()
         } else {
             TabView(selection: $selectedTab) {
-                MenuView()
+                MenuView(menuVM: menuVM)
                     .tag(1)
                 
-                GameView()
+                GameView(menuVM: menuVM)
                     .tag(2)
                 
                 ShopView()

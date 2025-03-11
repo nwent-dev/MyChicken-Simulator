@@ -1,7 +1,8 @@
 import SwiftUI
 
-struct CatchTheGrainIntroduceView: View {
+struct SurpriseEggGoalView: View {
     @ObservedObject var menuVM: MenuViewModel
+    @ObservedObject var gameVM: SurpriseEggViewModel
     @Environment(\.dismiss) var dismiss
     @State private var width = UIScreen.main.bounds.width
     @State private var height = UIScreen.main.bounds.height
@@ -47,7 +48,7 @@ struct CatchTheGrainIntroduceView: View {
                         )
                         .padding(.vertical)
                         
-                        Text("Catch as many grains falling from above as possible within a limited time to earn golden eggs.")
+                        Text("Guess which of the three baskets the golden egg is hidden under. A correct choice rewards you with golden eggs. If you guess wrong, the attempt ends, but you can try again (up to 5 attempts per day).")
                             .font(.custom("Gilroy-Regular", size: width * 0.045))
                             .frame(width: width * 0.75)
                     }
@@ -65,7 +66,7 @@ struct CatchTheGrainIntroduceView: View {
                     Spacer()
                     
                     NavigationLink {
-                        CatchTheGrainView(menuVM: menuVM)
+                        SurpriseEggView(menuVM: menuVM, gameVM: gameVM)
                     } label: {
                         Image("nextBtn")
                             .resizable()
@@ -74,6 +75,10 @@ struct CatchTheGrainIntroduceView: View {
                     }
                 }
                 .frame(width: width * 0.9)
+                
+                if !gameVM.checkMayPlay() {
+                    SurpriseEggOopsView(dismiss: _dismiss, gameVM: gameVM)
+                }
             }
         }
         .navigationBarBackButtonHidden()
@@ -81,6 +86,7 @@ struct CatchTheGrainIntroduceView: View {
 }
 
 #Preview {
-    @StateObject var vm = MenuViewModel()
-    CatchTheGrainIntroduceView(menuVM: vm)
+    @StateObject var menuVM = MenuViewModel()
+    @StateObject var gameVM = SurpriseEggViewModel()
+    SurpriseEggGoalView(menuVM: menuVM, gameVM: gameVM)
 }

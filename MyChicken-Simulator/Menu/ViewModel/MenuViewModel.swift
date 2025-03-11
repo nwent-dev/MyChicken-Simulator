@@ -1,15 +1,14 @@
 import Foundation
-import Combine
 import UIKit
 
 class MenuViewModel: ObservableObject {
-    @Published var foodProgress: CGFloat = 0.26
-    @Published var moodProgress: CGFloat = 0.26
-    @Published var tirednessProgress: CGFloat = 0.26
+    @Published var foodProgress: CGFloat = 1 // min 0.26 max 1
+    @Published var moodProgress: CGFloat = 1 // min 0.26 max 1
+    @Published var tirednessProgress: CGFloat = 0.26 // min 0.26 max 1
     
     @Published var isSleeping: Bool = false
-    @Published var sleepMinutes: Int = 0
-    @Published var sleepSeconds: Int = 0
+    @Published var sleepMinutes: String = "00" // ✅ Двухзначный формат
+    @Published var sleepSeconds: String = "00" // ✅ Двухзначный формат
 
     @Published var isFeedMenuOpen: Bool = false
     @Published var selectedFood: Food?
@@ -33,35 +32,41 @@ class MenuViewModel: ObservableObject {
     private var foodTimer: Timer?
 
     init() {
+        loadData()
         startFoodDecay()
         restoreSleepState()
         setupAppLifecycleObservers()
+
+        if sleepTimer == nil {
+            isSleeping = false
+            UserDefaults.standard.set(false, forKey: "isSleeping") // Сохраняем в память
+        }
     }
 
-    /// Запуск уменьшения еды со временем
+
     private func startFoodDecay() {
-        foodTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
+        foodTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 if self.foodProgress > 0.26 {
                     self.foodProgress -= 0.025
+                    self.saveData()
                 }
             }
         }
     }
     
-    /// Кормление курицы
     func feedChicken() {
         if let food = selectedFood {
             self.foodProgress = min(self.foodProgress + food.ccal, 1)
             MoneyManager.shared.subtractMoney(howMuch: food.price)
             isFeedMenuOpen = false
+            saveData()
         } else {
             print("Food not chosen")
         }
     }
     
-    /// Уход за курицей (повышает `moodProgress`)
     func careForChicken() {
         guard let care = selectedCare else {
             print("Care action not selected")
@@ -78,9 +83,9 @@ class MenuViewModel: ObservableObject {
         }
         
         isCareMenuOpened = false
+        saveData()
     }
     
-    /// Начало сна курицы с `switch` по `selectedTime`
     func sleepChicken() {
         guard let selectedTime = selectedTime else {
             print("Sleep time not selected")
@@ -90,16 +95,11 @@ class MenuViewModel: ObservableObject {
         let sleepDuration: TimeInterval
         
         switch selectedTime {
-        case "5min":
-            sleepDuration = 5 * 60
-        case "10min":
-            sleepDuration = 10 * 60
-        case "15min":
-            sleepDuration = 15 * 60
-        case "30min":
-            sleepDuration = 30 * 60
-        case "60min":
-            sleepDuration = 60 * 60
+        case "5min": sleepDuration = 5 * 60
+        case "10min": sleepDuration = 10 * 60
+        case "15min": sleepDuration = 15 * 60
+        case "30min": sleepDuration = 30 * 60
+        case "60min": sleepDuration = 60 * 60
         default:
             print("Invalid sleep time selected")
             return
@@ -108,13 +108,11 @@ class MenuViewModel: ObservableObject {
         sleepEndTime = Date().addingTimeInterval(sleepDuration)
         isSleeping = true
 
-        // Сохраняем конец сна в память
         UserDefaults.standard.set(sleepEndTime, forKey: "sleepEndTime")
 
         startSleepTimer()
     }
 
-    /// Запуск таймера сна
     private func startSleepTimer() {
         sleepTimer?.invalidate()
         sleepTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -127,59 +125,78 @@ class MenuViewModel: ObservableObject {
                 self.stopSleepTimer()
             }
             
-            // Каждые 15 секунд уменьшаем усталость
             if Int(remainingTime) % 15 == 0 {
                 self.tirednessProgress = max(self.tirednessProgress - 0.003333333333, 0)
+                self.saveData()
             }
         }
     }
 
-    /// Восстановление состояния сна после выхода из приложения
     private func restoreSleepState() {
         if let savedEndTime = UserDefaults.standard.object(forKey: "sleepEndTime") as? Date {
             let remainingTime = max(0, savedEndTime.timeIntervalSinceNow)
+            
             if remainingTime > 0 {
                 sleepEndTime = savedEndTime
                 isSleeping = true
                 startSleepTimer()
+                
+                // ✅ **Вычисляем сколько усталости нужно отнять**
+                let elapsedTime = sleepEndTime!.timeIntervalSince(savedEndTime)
+                let tirednessToRemove = elapsedTime / 15 * 0.003333333333
+                self.tirednessProgress = max(self.tirednessProgress - tirednessToRemove, 0)
+                
             } else {
                 stopSleepTimer()
             }
         }
     }
 
-    /// Подписка на события ухода в фон и возврата в приложение
     private func setupAppLifecycleObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterBackground), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
 
-    /// Приложение уходит в фон (сохраняем `sleepEndTime`)
     @objc private func appWillEnterBackground() {
+        saveData()
         if let sleepEndTime = sleepEndTime {
             UserDefaults.standard.set(sleepEndTime, forKey: "sleepEndTime")
         }
     }
 
-    /// Приложение снова активно (восстанавливаем таймер сна)
     @objc private func appDidBecomeActive() {
         restoreSleepState()
     }
 
-    /// Обновляет переменные `sleepMinutes` и `sleepSeconds`
     private func updateSleepTime(_ timeInterval: TimeInterval) {
-        sleepMinutes = Int(timeInterval) / 60
-        sleepSeconds = Int(timeInterval) % 60
+        let minutes = Int(timeInterval) / 60
+        let seconds = Int(timeInterval) % 60
+        sleepMinutes = String(format: "%02d", minutes) // ✅ Формат "00"
+        sleepSeconds = String(format: "%02d", seconds) // ✅ Формат "00"
     }
     
-    /// Остановка сна и сброс переменных
     func stopSleepTimer() {
         sleepTimer?.invalidate()
         sleepEndTime = nil
-        isSleeping = false
-        sleepMinutes = 0
-        sleepSeconds = 0
+        isSleeping = false // ✅ Явно сбрасываем перед сохранением
+        sleepMinutes = "00"
+        sleepSeconds = "00"
+        UserDefaults.standard.set(false, forKey: "isSleeping") // ✅ Сохраняем сброс сна
         UserDefaults.standard.removeObject(forKey: "sleepEndTime")
+    }
+
+    
+    func playGame() {
+        tirednessProgress += 0.16
+        moodProgress -= 0.16
+    }
+    
+    func mayPlayGame() -> Bool {
+        if foodProgress > 0.26 && moodProgress > 0.26 && isSleeping != true && tirednessProgress < 1 {
+            return true
+        } else {
+            return false
+        }
     }
     
     deinit {
@@ -187,4 +204,30 @@ class MenuViewModel: ObservableObject {
         sleepTimer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
+    
+    private func saveData() {
+        let data: [String: Any] = [
+            "foodProgress": foodProgress,
+            "moodProgress": moodProgress,
+            "tirednessProgress": tirednessProgress,
+            "isSleeping": isSleeping
+        ]
+        UserDefaults.standard.set(data, forKey: "menuData")
+    }
+
+    private func loadData() {
+        if let savedData = UserDefaults.standard.dictionary(forKey: "menuData") {
+            foodProgress = savedData["foodProgress"] as? CGFloat ?? 0.26
+            moodProgress = savedData["moodProgress"] as? CGFloat ?? 0.26
+            tirednessProgress = savedData["tirednessProgress"] as? CGFloat ?? 0.26
+            
+            // ✅ Загружаем значение isSleeping корректно
+            if let savedSleeping = savedData["isSleeping"] as? Bool {
+                isSleeping = savedSleeping
+            } else {
+                isSleeping = false // ✅ Если данных нет, сбрасываем
+            }
+        }
+    }
+
 }
