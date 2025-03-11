@@ -16,6 +16,7 @@ struct CatchTheGrainIntroduceView: View {
                 VStack {
                     HStack {
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             dismiss()
                         } label: {
                             Image("backBtn")

@@ -71,6 +71,7 @@ class CatchTheGrainScene: SKScene, SKPhysicsContactDelegate {
         if let fallingItem = fallingItem {
             fallingItem.removeFromParent()
             increaseScore()
+            SettingsViewModel.shared.playSoundEffect(named: "catchSound")
         }
     }
     

@@ -74,6 +74,7 @@ struct MenuView: View {
                     
                     HStack {
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             self.menuVM.isFeedMenuOpen = true
                         } label: {
                             Image("feedBtn")
@@ -83,6 +84,7 @@ struct MenuView: View {
                         }
                         
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             self.menuVM.isDreamMenuOpen = true
                         } label: {
                             Image("dreamBtn")
@@ -92,6 +94,7 @@ struct MenuView: View {
                         }
                         
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             menuVM.isCareMenuOpened = true
                         } label: {
                             Image("careBtn")

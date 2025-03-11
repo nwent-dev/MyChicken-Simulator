@@ -16,6 +16,7 @@ struct SurpriseEggCongratulationsView: View {
                     Spacer()
                     Button {
                         gameVM.isGameWin = false
+                        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                     } label: {
                         Image("closeBtn")
                             .resizable()

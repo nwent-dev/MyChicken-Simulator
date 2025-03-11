@@ -17,6 +17,7 @@ struct CatchTheGrainStartView: View {
                 VStack {
                     HStack {
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             TabViewSetting.shared.showTabview()
                             dismiss()
                         } label: {

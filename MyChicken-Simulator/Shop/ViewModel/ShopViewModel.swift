@@ -34,6 +34,7 @@ class ShopViewModel: ObservableObject {
             MoneyManager.shared.money -= clotheProducts[index].price
             clotheProducts[index].isBuyed = true
             saveData()
+            SettingsViewModel.shared.playSoundEffect(named: "purchaseSound")
         }
     }
     

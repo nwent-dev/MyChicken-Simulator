@@ -3,6 +3,7 @@ import SwiftUI
 struct GameOverView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var gameVM: CatchTheGrainViewModel
+    @ObservedObject var menuVM: MenuViewModel
     @State private var width = UIScreen.main.bounds.width
     @State private var height = UIScreen.main.bounds.height
     
@@ -52,6 +53,7 @@ struct GameOverView: View {
                     HStack {
                         Button {
                             gameVM.restartGame()
+                            menuVM.playGame()
                         } label: {
                             Image("restartBtn")
                                 .resizable()
@@ -59,6 +61,8 @@ struct GameOverView: View {
                                 .frame(width: width*0.25)
                         }
                         Button {
+                            SettingsViewModel.shared
+                                .playSoundEffect(named: "tapSound")
                             dismiss()
                         } label: {
                             Image("quitBtn")
@@ -85,5 +89,5 @@ struct GameOverView: View {
 
 #Preview {
     @StateObject var gameVM = CatchTheGrainViewModel()
-    GameOverView(gameVM: gameVM)
+    GameOverView(gameVM: gameVM, menuVM: MenuViewModel())
 }

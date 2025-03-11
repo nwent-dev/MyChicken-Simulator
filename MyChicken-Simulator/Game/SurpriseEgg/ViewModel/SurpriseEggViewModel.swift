@@ -34,6 +34,7 @@ class SurpriseEggViewModel: ObservableObject {
     /// Handles win logic
     private func winGame() {
         isGameWin = true
+        SettingsViewModel.shared.playSoundEffect(named: "winSound")
     }
     
     /// Handles lose logic
@@ -43,11 +44,13 @@ class SurpriseEggViewModel: ObservableObject {
             saveLives()
         }
         isGameOver = true
+        SettingsViewModel.shared.playSoundEffect(named: "loseSound")
     }
     
     /// Pauses the game
     func pauseGame() {
         isGamePaused = true
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
     }
     
     /// Resumes the game
@@ -56,6 +59,7 @@ class SurpriseEggViewModel: ObservableObject {
         if life > 0 {
             isGameOver = false
         }
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
     }
     
     /// Checks if the player can play based on remaining lives

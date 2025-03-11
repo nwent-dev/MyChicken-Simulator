@@ -35,6 +35,7 @@ struct SurpriseEggPauseView: View {
                     }
                     Button {
                         dismiss()
+                        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                     } label: {
                         Image("quitBtn")
                             .resizable()

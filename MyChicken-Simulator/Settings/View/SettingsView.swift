@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var settingsVM: SettingsViewModel
+    @ObservedObject var settingsVM = SettingsViewModel.shared
     
     @State private var width = UIScreen.main.bounds.width
     @State private var height = UIScreen.main.bounds.height
@@ -13,31 +13,17 @@ struct SettingsView: View {
                 .ignoresSafeArea()
             
             VStack {
-                ZStack {
-                    ShadowTextView(
-                        text: "SETTINGS",
-                        fontName: "Gilroy-Heavy",
-                        fontSize: width * 0.12,
-                        textColor: Color(red: 0.722, green: 0.055, blue: 0.306),
-                        outlineColor: .black,
-                        outlineWidth: 1,
-                        shadowColor: .black,
-                        shadowOffset: CGSize(width: 1.97, height: 1.97),
-                        shadowOpacity: 1
-                    )
-                    HStack {
-                        Button {
-                            
-                        } label: {
-                            Image("backBtn")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: width * 0.15)
-                        }
-                        
-                        Spacer()
-                    }
-                }
+                ShadowTextView(
+                    text: "SETTINGS",
+                    fontName: "Gilroy-Heavy",
+                    fontSize: width * 0.12,
+                    textColor: Color(red: 0.722, green: 0.055, blue: 0.306),
+                    outlineColor: .black,
+                    outlineWidth: 1,
+                    shadowColor: .black,
+                    shadowOffset: CGSize(width: 1.97, height: 1.97),
+                    shadowOpacity: 1
+                )
                 
                 VStack {
                     Text("SOUND SETTINGS")
@@ -89,5 +75,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(settingsVM: SettingsViewModel())
+    SettingsView()
 }

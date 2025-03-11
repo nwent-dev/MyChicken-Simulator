@@ -92,6 +92,7 @@ struct DreamView: View {
                             Spacer()
                             
                             Button {
+                                SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                                 menuVM.isDreamMenuOpen = false
                             } label: {
                                 Image("closeBtn")
@@ -151,6 +152,7 @@ struct TimeBtn: View {
     
     var body: some View {
         Button {
+            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
             menuVM.selectedTime = image
         } label: {
             Image(image)

@@ -28,6 +28,7 @@ struct CareView: View {
                         Spacer()
                         
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             menuVM.isCareMenuOpened = false
                         } label: {
                             Image("closeBtn")
@@ -41,6 +42,7 @@ struct CareView: View {
                 HStack {
                     ForEach(menuVM.cares, id: \.self) { care in
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             menuVM.selectedCare = care
                         } label: {
                             Image(care == menuVM.selectedCare ? care + "Tapped" : care)

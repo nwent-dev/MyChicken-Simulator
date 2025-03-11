@@ -26,6 +26,7 @@ struct FeedView: View {
                         Spacer()
                         
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             menuVM.isFeedMenuOpen = false
                         } label: {
                             Image("closeBtn")
@@ -40,6 +41,7 @@ struct FeedView: View {
                     ForEach(menuVM.food, id: \.self) { nFood in
                         VStack{
                             Button {
+                                SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                                 menuVM.selectedFood = nFood
                             } label: {
                                 Image(nFood.image)
@@ -61,6 +63,7 @@ struct FeedView: View {
                 }
                 
                 Button {
+                    SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                     menuVM.feedChicken()
                 } label: {
                     Image(menuVM.selectedFood != nil ? "chooseBtnActive" : "chooseBtnUnactive")

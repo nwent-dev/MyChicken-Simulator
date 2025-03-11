@@ -18,6 +18,7 @@ struct CustomTabView: View {
                 HStack {
                     ForEach(0..<4) { index in
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             tabSelection = index + 1
                         } label: {
                             Image(index+1==tabSelection ? tabBarItems[index].imageSelected : tabBarItems[index].imageUnselected)

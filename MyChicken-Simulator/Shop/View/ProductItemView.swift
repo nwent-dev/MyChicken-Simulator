@@ -27,6 +27,7 @@ struct ProductItemView: View {
             }
             
             Button {
+                SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                 action()
             } label: {
                 if isBuyed {

@@ -17,15 +17,6 @@ struct GameView: View {
                 
                 VStack {
                     HStack {
-                        Button {
-                            //
-                        } label: {
-                            Image("backBtn")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: width * 0.1538461538)
-                        }
-                        
                         Spacer()
                         
                         HStack {

@@ -17,6 +17,7 @@ struct OnboardingView: View {
                         
                         // Skip button
                         Button {
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                             hasSeenOnboarding = true
                         } label: {
                             Image("skipBtn")
@@ -80,6 +81,7 @@ struct OnboardingView: View {
                     
                     // Next button
                     Button {
+                        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                         onboardingVM
                             .nextText(hasSeenOnboarding: &hasSeenOnboarding)
                     } label: {

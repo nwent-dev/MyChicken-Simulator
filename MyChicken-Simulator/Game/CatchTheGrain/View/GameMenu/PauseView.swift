@@ -34,6 +34,7 @@ struct PauseView: View {
                             .frame(width: width*0.25)
                     }
                     Button {
+                        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                         dismiss()
                     } label: {
                         Image("quitBtn")

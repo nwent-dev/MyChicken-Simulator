@@ -51,6 +51,7 @@ struct CatchTheGrainView: View {
                             }
                             
                             Button {
+                                SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                                 dismiss()
                             } label: {
                                 Image("closeBtn")
@@ -70,7 +71,14 @@ struct CatchTheGrainView: View {
                 }
                 
                 if gameVM.isGameOver || gameVM.isGameWon {
-                    GameOverView(dismiss: _dismiss, gameVM: gameVM)
+                    GameOverView(
+                        dismiss: _dismiss,
+                        gameVM: gameVM,
+                        menuVM: menuVM
+                    )
+                        .onAppear {
+                            SettingsViewModel.shared.playSoundEffect(named: gameVM.isGameWon ? "winSound" :  "loseSound")
+                        }
                 }
             }
         }

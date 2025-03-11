@@ -30,6 +30,7 @@ struct SurpriseEggView: View {
                         // close btn
                         Button {
                             dismiss()
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                         } label: {
                             Image("closeBtn")
                                 .resizable()
@@ -78,7 +79,11 @@ struct SurpriseEggView: View {
                 }
                 
                 if gameVM.isGameOver {
-                    SurpriseEggGameOverView(dismiss: _dismiss, gameVM: gameVM)
+                    SurpriseEggGameOverView(
+                        dismiss: _dismiss,
+                        gameVM: gameVM,
+                        menuVM: menuVM
+                    )
                 }
             }
         }

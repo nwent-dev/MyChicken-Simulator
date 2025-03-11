@@ -51,6 +51,7 @@ struct ShopView: View {
                 
                 HStack {
                     Button {
+                        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                         shopVM.selectedProductsType = .cloth
                     } label: {
                         Image(
@@ -62,6 +63,7 @@ struct ShopView: View {
                     }
                     
                     Button {
+                        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                         shopVM.selectedProductsType = .location
                     } label: {
                         Image(

@@ -68,6 +68,7 @@ class MenuViewModel: ObservableObject {
     }
     
     func careForChicken() {
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
         guard let care = selectedCare else {
             print("Care action not selected")
             return
@@ -87,6 +88,7 @@ class MenuViewModel: ObservableObject {
     }
     
     func sleepChicken() {
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
         guard let selectedTime = selectedTime else {
             print("Sleep time not selected")
             return
@@ -175,6 +177,7 @@ class MenuViewModel: ObservableObject {
     }
     
     func stopSleepTimer() {
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
         sleepTimer?.invalidate()
         sleepEndTime = nil
         isSleeping = false

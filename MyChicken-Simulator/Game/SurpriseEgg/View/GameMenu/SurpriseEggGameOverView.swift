@@ -3,6 +3,7 @@ import SwiftUI
 struct SurpriseEggGameOverView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var gameVM: SurpriseEggViewModel
+    @ObservedObject var menuVM: MenuViewModel
     @State private var width = UIScreen.main.bounds.width
     @State private var height = UIScreen.main.bounds.height
     
@@ -53,6 +54,7 @@ struct SurpriseEggGameOverView: View {
                     HStack {
                         Button {
                             gameVM.resumeGame()
+                            menuVM.playGame()
                         } label: {
                             Image("restartBtn")
                                 .resizable()
@@ -61,6 +63,7 @@ struct SurpriseEggGameOverView: View {
                         }
                         Button {
                             dismiss()
+                            SettingsViewModel.shared.playSoundEffect(named: "tapSound")
                         } label: {
                             Image("quitBtn")
                                 .resizable()
@@ -86,5 +89,5 @@ struct SurpriseEggGameOverView: View {
 
 #Preview {
     @StateObject var gameVM = SurpriseEggViewModel()
-    SurpriseEggGameOverView(gameVM: gameVM)
+    SurpriseEggGameOverView(gameVM: gameVM, menuVM: MenuViewModel())
 }

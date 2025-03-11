@@ -29,6 +29,7 @@ class CatchTheGrainViewModel: ObservableObject {
         score += 1
         
         if score >= levelTask {
+            SettingsViewModel.shared.playSoundEffect(named: "winSound")
             winGame()
         }
     }
@@ -45,6 +46,7 @@ class CatchTheGrainViewModel: ObservableObject {
     
     // Pause game
     func pauseGame() {
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
         isGamePaused = true
         gameTimer?.invalidate()
         
@@ -56,13 +58,14 @@ class CatchTheGrainViewModel: ObservableObject {
     // resume game
     func resumeGame() {
         guard isGamePaused, !isGameOver else { return }
-        
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
         isGamePaused = false
         startGameTimer() // Start timer with remaining time
     }
     
     // restart game
     func restartGame() {
+        SettingsViewModel.shared.playSoundEffect(named: "tapSound")
         score = 0
         isGamePaused = false
         isGameOver = false
@@ -79,6 +82,7 @@ class CatchTheGrainViewModel: ObservableObject {
     
     // win
     private func winGame() {
+        SettingsViewModel.shared.playSoundEffect(named: "winSound")
         isGameWon = true
         isGameOver = true
         isGamePaused = true
@@ -90,6 +94,7 @@ class CatchTheGrainViewModel: ObservableObject {
     
     // lose
     private func loseGame() {
+        SettingsViewModel.shared.playSoundEffect(named: "loseSound")
         guard !isGameWon else { return }
         isGameOver = true
         isGamePaused = true
